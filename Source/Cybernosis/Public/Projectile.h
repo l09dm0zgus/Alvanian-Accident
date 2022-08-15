@@ -19,7 +19,6 @@ public:
 	UFUNCTION()
 	void OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit);
 private:
-	void CreateAndSetupCollisionComponent();
 	void CreateAndSetupProjectileComponent();
 	void CreateAndSetupSpriteComponent();
 	UPROPERTY(EditAnywhere)

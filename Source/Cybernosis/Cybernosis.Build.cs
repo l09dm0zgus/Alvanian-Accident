@@ -10,7 +10,7 @@ public class Cybernosis : ModuleRules
 
 		PrecompileForTargets = PrecompileTargetsType.Any;
 
-        PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "Paper2D", "UMG"});
+        PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "Paper2D", "UMG","AIModule","NavigationSystem", "GameplayTasks"});
 
         PrivateDependencyModuleNames.AddRange(new string[] { "Paper2D"  , "Slate" , "SlateCore"});
 		

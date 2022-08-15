@@ -85,7 +85,7 @@ void AAlbanianPlayer::CreateAndSetupSpringArmComponent()
 	SpringArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraAttachmentArm"));
 	SpringArm->SetupAttachment(RootComponent);
 	SpringArm->SetUsingAbsoluteRotation(true);
-	SpringArm->TargetArmLength = 400.0f;
+	SpringArm->TargetArmLength = 10.0f;
 	SpringArm->bEnableCameraLag = true;
 	SpringArm->CameraLagSpeed = 3.0f;
 	
