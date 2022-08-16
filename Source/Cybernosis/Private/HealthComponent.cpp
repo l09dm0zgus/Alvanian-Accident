@@ -9,6 +9,7 @@ UHealthComponent::UHealthComponent()
 void UHealthComponent::BeginPlay()
 {
 	Super::BeginPlay();
+	GetOwner()->OnTakeAnyDamage.AddDynamic(this, &UHealthComponent::DamageTaken);
 }
 
 void UHealthComponent::SetCurrentHealth(float currentHealth)
@@ -39,6 +40,16 @@ float UHealthComponent::GetCurrentHealth()
 float UHealthComponent::GetStartHealth()
 {
 	return StartHealth;
+}
+
+void UHealthComponent::DamageTaken(AActor* DamagedActor, float Damage, const UDamageType* DamegeType, AController* Instigator, AActor* DamageCauser)
+{
+	UE_LOG(LogTemp, Warning, TEXT("Actor Damaged"))
+	CurrentHealth -= Damage;
+	if (CurrentHealth <= 0.00)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Actor died"))
+	}
 }
 
 

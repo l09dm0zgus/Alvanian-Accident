@@ -2,10 +2,11 @@
 
 
 #include "Enemy.h"
+#include "HealthComponent.h"
 
 AEnemy::AEnemy()
 {
-	
+	HealthComponent = CreateDefaultSubobject<UHealthComponent>(TEXT("Health"));
 	SetupStimulus();
 }
 

@@ -29,6 +29,8 @@ protected:
 	float GetCurrentHealth();
 	UFUNCTION(BlueprintPure, Category = "Health")
 	float GetStartHealth();
+	UFUNCTION()
+	void DamageTaken(AActor* DamagedActor, float Damage, const UDamageType* DamegeType, AController* Instigator, AActor* DamageCauser);
 private:
 
 	UPROPERTY(EditAnywhere, Category = "Health")

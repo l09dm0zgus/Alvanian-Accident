@@ -18,11 +18,11 @@ void UWeaponComponent::Fire()
 		{
 			const FRotator SpawnRotation = GetComponentRotation();
 			const FVector SpawnLocation = GetComponentLocation();;
-			UE_LOG(LogTemp, Warning, TEXT("Actor Pos %s"), *GetOwner()->GetActorLocation().ToString());
 
 			FActorSpawnParameters ActorSpawnParams;
 			ActorSpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButDontSpawnIfColliding;
-			World->SpawnActor<AProjectile>(ProjectileClass, SpawnLocation, SpawnRotation, ActorSpawnParams);
+			auto Projectile =  World->SpawnActor<AProjectile>(ProjectileClass, SpawnLocation, SpawnRotation, ActorSpawnParams);
+			Projectile->SetOwner(GetOwner());
 		}
 		if (FireSound != nullptr)
 		{

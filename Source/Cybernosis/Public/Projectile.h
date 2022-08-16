@@ -18,6 +18,7 @@ public:
 	AProjectile();
 	UFUNCTION()
 	void OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit);
+	virtual void BeginPlay() override;
 private:
 	void CreateAndSetupProjectileComponent();
 	void CreateAndSetupSpriteComponent();
@@ -27,4 +28,6 @@ private:
 	UProjectileMovementComponent* ProjectileMovement;
 	UPROPERTY(EditAnywhere)
 	UPaperSpriteComponent* SpriteComponent;
+	UPROPERTY(EditAnywhere)
+	float Damage = 15.0f;
 };

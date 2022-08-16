@@ -3,6 +3,7 @@
 
 #include "Projectile.h"
 #include "PaperSprite.h"
+#include "Kismet/GameplayStatics.h"
 AProjectile::AProjectile()
 {
 	PrimaryActorTick.bCanEverTick = false;
@@ -14,11 +15,23 @@ AProjectile::AProjectile()
 
 void AProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit)
 {
-	if ((OtherActor != nullptr) && (OtherActor != this) && (OtherComponent != nullptr) && OtherComponent->IsSimulatingPhysics())
+	auto MyOwner = GetOwner();
+	if (MyOwner == nullptr)
 	{
-		OtherComponent->AddImpulseAtLocation(GetVelocity() * 100.0f, GetActorLocation());
+		return;
+	}
+	if ((OtherActor != nullptr) && (OtherActor != this) && (OtherActor->Tags.Num() > 0) && (OtherActor->Tags[0] == FName(TEXT("Creature"))))
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Hit: %s"), *OtherActor->GetActorNameOrLabel())
+		UGameplayStatics::ApplyDamage(OtherActor, Damage, MyOwner->GetInstigatorController(), this, UDamageType::StaticClass());
 		Destroy();
 	}
+}
+
+void AProjectile::BeginPlay()
+{
+	Super::BeginPlay();
+	SpriteComponent->OnComponentHit.AddDynamic(this, &AProjectile::OnHit);
 }
 
 

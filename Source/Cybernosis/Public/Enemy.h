@@ -18,6 +18,8 @@ class CYBERNOSIS_API AEnemy: public APaperCharacter
 public:
 	AEnemy();
 private:
+	UPROPERTY(EditAnywhere)
+	class UHealthComponent* HealthComponent;
 	UAIPerceptionStimuliSourceComponent* Stimulus;
 	void SetupStimulus();
 };
