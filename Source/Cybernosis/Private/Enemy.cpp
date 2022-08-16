@@ -1,15 +1,15 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "NPC.h"
+#include "Enemy.h"
 
-ANPC::ANPC()
+AEnemy::AEnemy()
 {
 	
 	SetupStimulus();
 }
 
-void ANPC::SetupStimulus()
+void AEnemy::SetupStimulus()
 {
 	Stimulus = CreateDefaultSubobject<UAIPerceptionStimuliSourceComponent>(TEXT("Stimulus"));
 	Stimulus->RegisterForSense(TSubclassOf<UAISense_Sight>());

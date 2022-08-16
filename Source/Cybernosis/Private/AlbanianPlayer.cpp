@@ -109,7 +109,9 @@ void AAlbanianPlayer::CreateAndSetupFlipbookComponent()
 {
 	FlipbookComponent = CreateDefaultSubobject<UPaperFlipbookComponent>(TEXT("Flipbook"));
 	FlipbookComponent->SetLooping(false);
-	RootComponent = FlipbookComponent;
+	CapsuleComponent = CreateDefaultSubobject<UCapsuleComponent>(TEXT("Capsule"));
+	FlipbookComponent->SetupAttachment(CapsuleComponent);
+	RootComponent = CapsuleComponent;
 }
 
 void AAlbanianPlayer::CreateAndSetupEyesLightComponent()

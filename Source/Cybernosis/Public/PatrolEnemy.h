@@ -3,14 +3,14 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "NPC.h"
-#include "PatrolNPC.generated.h"
+#include "Enemy.h"
+#include "PatrolEnemy.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class CYBERNOSIS_API APatrolNPC : public ANPC
+class CYBERNOSIS_API APatrolEnemy : public AEnemy
 {
 	GENERATED_BODY()
 private:
@@ -20,5 +20,5 @@ private:
 	class AAIPoint* EndPoint;
 protected:
 	virtual void BeginPlay() override;
-	APatrolNPC();
+	APatrolEnemy();
 };

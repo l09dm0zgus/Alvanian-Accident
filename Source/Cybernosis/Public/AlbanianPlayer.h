@@ -79,6 +79,9 @@ private:
 	UPROPERTY(EditAnywhere)
 	UWeaponComponent* SecondWeaponSecondGunComponent;
 
+	UPROPERTY(EditAnywhere)
+	UCapsuleComponent* CapsuleComponent;
+
 	void MoveForward(float AxisValue);
 	void MoveRight(float AxisValue);
 	void Turn(float AxisValue);

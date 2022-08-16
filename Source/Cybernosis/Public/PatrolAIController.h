@@ -3,14 +3,14 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "NPCAIController.h"
-#include "PatrolNPCAIController.generated.h"
+#include "AIController.h"
+#include "PatrolAIController.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class CYBERNOSIS_API APatrolNPCAIController : public AAIController
+class CYBERNOSIS_API APatrolAIController : public AAIController
 {
 	GENERATED_BODY()
 private:

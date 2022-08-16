@@ -1,28 +1,29 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "PatrolNPCAIController.h"
+#include "PatrolAIController.h"
 #include "AIPoint.h"
 #include "BehaviorTree/BehaviorTree.h"
+#include "BehaviorTree/BlackboardComponent.h"
 
-void APatrolNPCAIController::BeginPlay()
+void APatrolAIController::BeginPlay()
 {
 	Super::BeginPlay();
 	RunBehaviorTree(BehaviorTree);
 
 }
 
-void APatrolNPCAIController::SetStartPoint(AAIPoint* startPoint)
+void APatrolAIController::SetStartPoint(AAIPoint* startPoint)
 {
 	StartPoint = startPoint;
 }
 
-void APatrolNPCAIController::SetEndPoint(AAIPoint* endPoint)
+void APatrolAIController::SetEndPoint(AAIPoint* endPoint)
 {
 	EndPoint = endPoint;
 }
 
-void APatrolNPCAIController::StartPatrol()
+void APatrolAIController::StartPatrol()
 {
 	GetBlackboardComponent()->SetValueAsVector(TEXT("EndPoint"),EndPoint->GetActorLocation());
 	GetBlackboardComponent()->SetValueAsVector(TEXT("StartPoint"), StartPoint->GetActorLocation());

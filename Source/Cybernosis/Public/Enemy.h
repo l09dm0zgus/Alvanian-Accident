@@ -6,17 +6,17 @@
 #include "PaperCharacter.h"
 #include "Perception/AIPerceptionStimuliSourceComponent.h"
 #include "Perception/AISenseConfig_Sight.h"
-#include "NPC.generated.h"
+#include "Enemy.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class CYBERNOSIS_API ANPC : public APaperCharacter
+class CYBERNOSIS_API AEnemy: public APaperCharacter
 {
 	GENERATED_BODY()
 public:
-	ANPC();
+	AEnemy();
 private:
 	UAIPerceptionStimuliSourceComponent* Stimulus;
 	void SetupStimulus();
