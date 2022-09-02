@@ -22,7 +22,11 @@ void UWeaponComponent::Fire()
 			FActorSpawnParameters ActorSpawnParams;
 			ActorSpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButDontSpawnIfColliding;
 			auto Projectile =  World->SpawnActor<AProjectile>(ProjectileClass, SpawnLocation, SpawnRotation, ActorSpawnParams);
-			Projectile->SetOwner(GetOwner());
+			if (Projectile != nullptr)
+			{
+				Projectile->SetOwner(GetOwner());
+			}
+			
 		}
 		if (FireSound != nullptr)
 		{

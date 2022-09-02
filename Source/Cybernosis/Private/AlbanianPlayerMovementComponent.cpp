@@ -14,15 +14,17 @@ void UAlbanianPlayerMovementComponent::TickComponent(float DeltaTime, enum ELeve
     {
         return;
     }
-
+    bIsMoving = false;
     FVector DesiredMovementThisFrame = ConsumeInputVector().GetClampedToMaxSize(1.0f) * DeltaTime * Speed;
     if (!DesiredMovementThisFrame.IsNearlyZero())
     {
         FHitResult Hit;
         SafeMoveUpdatedComponent(DesiredMovementThisFrame, UpdatedComponent->GetComponentRotation(), true, Hit);
+        bIsMoving = true;
         if (Hit.IsValidBlockingHit())
         {
             StopMovementImmediately();
+            bIsMoving = false;
         }
     }
       
@@ -33,7 +35,17 @@ void UAlbanianPlayerMovementComponent::Turn(float AxisValue)
     FVector MouseLocation, MouseDirection;
     FVector ActorLocation = UpdatedComponent->GetComponentLocation();
     UGameplayStatics::GetPlayerController(GetWorld(), 0)->DeprojectMousePositionToWorld(MouseLocation, MouseDirection);
-    FRotator NewRotation = UKismetMathLibrary::FindLookAtRotation(ActorLocation, MouseLocation);
-    UpdatedComponent->SetRelativeRotation(FRotator(0.0f,NewRotation.Yaw,90.0f));
+    if (FVector::Dist2D(MouseLocation, ActorLocation) > DistanceToDisableRotating)
+    {
+        FRotator NewRotation = UKismetMathLibrary::FindLookAtRotation(ActorLocation, MouseLocation);
+        UpdatedComponent->SetRelativeRotation(FRotator(0.0f, NewRotation.Yaw, 90.0f));
+    }
+    UE_LOG(LogTemp,Warning,TEXT("ActotLocation : %s , MouseLocation : %s"),*ActorLocation.ToCompactString(),*MouseLocation.ToCompactString())
+    
+}
+
+bool UAlbanianPlayerMovementComponent::IsMoving()
+{ 
+    return bIsMoving;
 }
 

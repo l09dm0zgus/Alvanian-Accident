@@ -13,8 +13,11 @@ class CYBERNOSIS_API UAlbanianPlayerMovementComponent : public UPawnMovementComp
 public:
 	virtual void TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 	void Turn(float AxisValue);
+	bool IsMoving();
 private:
 	UPROPERTY(EditAnywhere)
 	float Speed = 150.0f;
-
+	bool bIsMoving = false;
+	UPROPERTY(EditAnywhere)
+	float DistanceToDisableRotating = 0.5f;
 };

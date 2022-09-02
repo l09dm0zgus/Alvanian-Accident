@@ -38,7 +38,7 @@ protected:
 
 public:	
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-
+	virtual void Tick(float DeltaTime) override;
 private:
 	Weapon CurrentWeapon;
 
@@ -49,7 +49,11 @@ private:
 	UAlbanianPlayerCameraComponent* Camera;
 
 	UPROPERTY(EditAnywhere)
-	UPaperFlipbookComponent* FlipbookComponent;
+	UPaperFlipbookComponent* TopFlipbookComponent;
+
+	UPROPERTY(EditAnywhere)
+	UPaperFlipbookComponent* LegsFlipbookComponent;
+
 
 	UPROPERTY(EditAnywhere)
 	UPaperFlipbook* FistWeaponAnimation;
@@ -68,6 +72,18 @@ private:
 
 	UPROPERTY(EditAnywhere)
 	UHealthComponent* HealthComponent;
+
+	UPROPERTY(EditAnywhere)
+	UPaperFlipbook* TopWalkAnimation;
+
+	UPROPERTY(EditAnywhere)
+	UPaperFlipbook* LegsWalkAnimation;
+
+	UPROPERTY(EditAnywhere)
+	UPaperFlipbook* TopIdleAnimation;
+
+	UPROPERTY(EditAnywhere)
+	UPaperFlipbook* LegsIdleAnimation;
 
 	UPROPERTY(EditAnywhere)
 	UWeaponComponent* FirstWeaponComponent;

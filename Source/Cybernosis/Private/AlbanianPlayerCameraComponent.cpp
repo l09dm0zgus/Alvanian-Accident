@@ -10,17 +10,18 @@ UAlbanianPlayerCameraComponent::UAlbanianPlayerCameraComponent()
 
 void UAlbanianPlayerCameraComponent::ZoomIn(float AxisValue)
 {
-	if (GetRelativeLocation().Z >= MinimalZoomDistance)
+	
+	if (GetComponentLocation().Z >= MinimalZoomDistance)
 	{
-		AddRelativeLocation(FVector(0.0f, 0.0f, AxisValue));
+		SetWorldLocation(FVector(GetComponentLocation().X, GetComponentLocation().Y, GetComponentLocation().Z + AxisValue));
 	}
 }
 
 void UAlbanianPlayerCameraComponent::ZoomOut(float AxisValue)
 {
-	if (GetRelativeLocation().Z <= MaximalZoomDistance)
+	if (GetComponentLocation().Z <= MaximalZoomDistance)
 	{
-		AddRelativeLocation(FVector(0.0f,0.0, AxisValue));
+		SetWorldLocation(FVector(GetComponentLocation().X, GetComponentLocation().Y, GetComponentLocation().Z + AxisValue));
 	}
 }
 

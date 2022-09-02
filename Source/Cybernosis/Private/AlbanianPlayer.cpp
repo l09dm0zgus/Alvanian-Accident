@@ -3,7 +3,7 @@
 
 AAlbanianPlayer::AAlbanianPlayer()
 {
-	PrimaryActorTick.bCanEverTick = false;
+	PrimaryActorTick.bCanEverTick = true;
 
 	CreateAndSetupFlipbookComponent();
 	CreateAndSetupSpringArmComponent();
@@ -14,14 +14,12 @@ AAlbanianPlayer::AAlbanianPlayer()
 	CreateAndSetupWeaponsComponents();
 
 	AutoPossessPlayer = EAutoReceiveInput::Player0;
-
-	RollActor(90);
 }
 
 void AAlbanianPlayer::BeginPlay()
 {
 	Super::BeginPlay();
-	
+	CurrentWeapon = NO_WEAPON;
 }
 
 
@@ -38,6 +36,33 @@ void AAlbanianPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComp
 	PlayerInputComponent->BindAction("Shoot", IE_Pressed, this, &AAlbanianPlayer::Fire);
 	PlayerInputComponent->BindAxis("ZoomIn", Camera, &UAlbanianPlayerCameraComponent::ZoomIn);
 	PlayerInputComponent->BindAxis("ZoomOut", Camera, &UAlbanianPlayerCameraComponent::ZoomOut);
+}
+
+void AAlbanianPlayer::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+	if (MovementComponent->IsMoving())
+	{
+		if (CurrentWeapon == NO_WEAPON)
+		{
+			TopFlipbookComponent->SetLooping(true);
+			TopFlipbookComponent->SetFlipbook(TopWalkAnimation);
+			TopFlipbookComponent->Play();
+		}
+		LegsFlipbookComponent->SetFlipbook(LegsWalkAnimation);
+		LegsFlipbookComponent->Play();
+	} 
+	else
+	{
+		if (CurrentWeapon == NO_WEAPON)
+		{
+			TopFlipbookComponent->SetLooping(true);
+			TopFlipbookComponent->SetFlipbook(TopIdleAnimation);
+			TopFlipbookComponent->Play();
+		}
+		LegsFlipbookComponent->SetFlipbook(LegsIdleAnimation);
+		LegsFlipbookComponent->Play();
+	}
 }
 
 void AAlbanianPlayer::MoveForward(float AxisValue)
@@ -83,11 +108,9 @@ void AAlbanianPlayer::Fire()
 void AAlbanianPlayer::CreateAndSetupSpringArmComponent()
 {
 	SpringArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraAttachmentArm"));
-	SpringArm->SetupAttachment(RootComponent);
+	SpringArm->SetupAttachment(TopFlipbookComponent);
 	SpringArm->SetUsingAbsoluteRotation(true);
 	SpringArm->TargetArmLength = 10.0f;
-	SpringArm->bEnableCameraLag = true;
-	SpringArm->CameraLagSpeed = 3.0f;
 	
 }
 
@@ -95,8 +118,6 @@ void AAlbanianPlayer::CreateAndSetupCameraComponent()
 {
 	Camera = CreateDefaultSubobject<UAlbanianPlayerCameraComponent>(TEXT("ActualCamera"));
 	Camera->SetupAttachment(SpringArm, USpringArmComponent::SocketName);
-	Camera->SetRelativeRotation(FRotator(-90.0f, 0.0f, 0.0f));
-	Camera->SetRelativeLocation(FVector(0.0f, 0.0f, 25.0f));
 }
 
 void AAlbanianPlayer::CreateAndSetupMovementComponent()
@@ -107,17 +128,19 @@ void AAlbanianPlayer::CreateAndSetupMovementComponent()
 
 void AAlbanianPlayer::CreateAndSetupFlipbookComponent()
 {
-	FlipbookComponent = CreateDefaultSubobject<UPaperFlipbookComponent>(TEXT("Flipbook"));
-	FlipbookComponent->SetLooping(false);
+	TopFlipbookComponent = CreateDefaultSubobject<UPaperFlipbookComponent>(TEXT("TopFlipbook"));
+	TopFlipbookComponent->SetLooping(false);
 	CapsuleComponent = CreateDefaultSubobject<UCapsuleComponent>(TEXT("Capsule"));
-	FlipbookComponent->SetupAttachment(CapsuleComponent);
+	TopFlipbookComponent->SetupAttachment(CapsuleComponent);
+	LegsFlipbookComponent = CreateDefaultSubobject<UPaperFlipbookComponent>(TEXT("LegsFlipbook"));
+	LegsFlipbookComponent->SetupAttachment(TopFlipbookComponent);
 	RootComponent = CapsuleComponent;
 }
 
 void AAlbanianPlayer::CreateAndSetupEyesLightComponent()
 {
 	EyesLightComponent = CreateDefaultSubobject<UEyesLightComponent>(TEXT("PlayerEyesLights"));
-	EyesLightComponent->AttachToComponent(FlipbookComponent, FAttachmentTransformRules(EAttachmentRule::KeepRelative, false));
+	EyesLightComponent->AttachToComponent(TopFlipbookComponent, FAttachmentTransformRules(EAttachmentRule::KeepRelative, false));
 	SetupLightFlare();
 	SetupFirstEyeLight();
 	SetupSecondEyeLight();
@@ -131,15 +154,15 @@ void AAlbanianPlayer::CreateAndSetupHealthComponent()
 void AAlbanianPlayer::CreateAndSetupWeaponsComponents()
 {
 	FirstWeaponComponent = CreateDefaultSubobject<UWeaponComponent>(TEXT("First Weapon"));
-	FirstWeaponComponent->SetupAttachment(FlipbookComponent);
+	FirstWeaponComponent->SetupAttachment(TopFlipbookComponent);
 	FirstWeaponComponent->SetRelativeLocation(FVector(10.0f, -5.0f, -12.5f));
 
 	SecondWeaponFirstGunComponent = CreateDefaultSubobject<UWeaponComponent>(TEXT("Second Weapon 1"));
-	SecondWeaponFirstGunComponent->SetupAttachment(FlipbookComponent);
+	SecondWeaponFirstGunComponent->SetupAttachment(TopFlipbookComponent);
 	SecondWeaponFirstGunComponent->SetRelativeLocation(FVector(10.0f, -5.0f, -9.0f));
 
 	SecondWeaponSecondGunComponent = CreateDefaultSubobject<UWeaponComponent>(TEXT("Second Weapon 2"));
-	SecondWeaponSecondGunComponent->SetupAttachment(FlipbookComponent);
+	SecondWeaponSecondGunComponent->SetupAttachment(TopFlipbookComponent);
 	SecondWeaponSecondGunComponent->SetRelativeLocation(FVector(10.0f, -5.0f, 9.0f));
 }
 
@@ -187,24 +210,26 @@ void AAlbanianPlayer::RollActor(float Angle)
 
 void AAlbanianPlayer::ChooseFistWeapon()
 {
-	FlipbookComponent->SetFlipbook(FistWeaponAnimation);
-	FlipbookComponent->Play();
+	TopFlipbookComponent->SetLooping(false);
+	TopFlipbookComponent->SetFlipbook(FistWeaponAnimation);
+	TopFlipbookComponent->Play();
 	CurrentWeapon = FIRST_WEAPON;
 }
 
 void AAlbanianPlayer::ChooseSecondWeapon()
 {
-	FlipbookComponent->SetFlipbook(SecondWeaponAnimation);
-	FlipbookComponent->Play();
+	TopFlipbookComponent->SetLooping(false);
+	TopFlipbookComponent->SetFlipbook(SecondWeaponAnimation);
+	TopFlipbookComponent->Play();
 	CurrentWeapon = SECOND_WEAPON;
 }
 
 void AAlbanianPlayer::ChooseThirdWeapon()
 {
-
-	FlipbookComponent->SetFlipbook(ThirdWeaponAnimation);
-	FlipbookComponent->PlayFromStart();
-	FlipbookComponent->ReverseFromEnd();
+	TopFlipbookComponent->SetLooping(false);
+	TopFlipbookComponent->SetFlipbook(ThirdWeaponAnimation);
+	TopFlipbookComponent->PlayFromStart();
+	TopFlipbookComponent->ReverseFromEnd();
 	CurrentWeapon = MEELE_WEAPON;
 
 }
