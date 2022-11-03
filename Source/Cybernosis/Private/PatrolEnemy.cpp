@@ -3,6 +3,7 @@
 
 #include "PatrolEnemy.h"
 #include "PatrolAIController.h"
+#include "Components/CapsuleComponent.h"
 
 void APatrolEnemy::BeginPlay()
 {
@@ -19,5 +20,13 @@ void APatrolEnemy::BeginPlay()
 
 APatrolEnemy::APatrolEnemy()
 {
-	
+	RootComponent = GetCapsuleComponent();
+	WeaponComponent = CreateDefaultSubobject<UWeaponComponent>("WeaponComponent");
+	WeaponComponent->SetupAttachment(RootComponent);
+
+}
+
+void APatrolEnemy::Attack()
+{
+	WeaponComponent->Fire();
 }

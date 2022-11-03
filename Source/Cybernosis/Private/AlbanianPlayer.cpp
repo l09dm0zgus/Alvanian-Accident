@@ -41,27 +41,20 @@ void AAlbanianPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComp
 void AAlbanianPlayer::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	if (MovementComponent->IsMoving())
+	if(!HealthComponent->IsDead())
 	{
-		if (CurrentWeapon == NO_WEAPON)
+		if (MovementComponent->IsMoving())
 		{
-			TopFlipbookComponent->SetLooping(true);
-			TopFlipbookComponent->SetFlipbook(TopWalkAnimation);
-			TopFlipbookComponent->Play();
+			ChangeAnimation(LegsWalkAnimation,TopWalkAnimation,true);
+		} 
+		else
+		{
+			ChangeAnimation(LegsIdleAnimation,TopIdleAnimation,true);
 		}
-		LegsFlipbookComponent->SetFlipbook(LegsWalkAnimation);
-		LegsFlipbookComponent->Play();
-	} 
+	}
 	else
 	{
-		if (CurrentWeapon == NO_WEAPON)
-		{
-			TopFlipbookComponent->SetLooping(true);
-			TopFlipbookComponent->SetFlipbook(TopIdleAnimation);
-			TopFlipbookComponent->Play();
-		}
-		LegsFlipbookComponent->SetFlipbook(LegsIdleAnimation);
-		LegsFlipbookComponent->Play();
+		Die();
 	}
 }
 
@@ -234,3 +227,23 @@ void AAlbanianPlayer::ChooseThirdWeapon()
 
 }
 
+
+void AAlbanianPlayer::Die()
+{
+	CurrentWeapon = NO_WEAPON;
+	ChangeAnimation(LegsIdleAnimation,DeathAnimation,false);
+	DetachFromControllerPendingDestroy();
+
+}
+void AAlbanianPlayer::ChangeAnimation(UPaperFlipbook *LegsAnimation, UPaperFlipbook *TopAnimation, bool bIsLooping)
+{
+	if (CurrentWeapon == NO_WEAPON)
+	{
+		TopFlipbookComponent->SetLooping(bIsLooping);
+		TopFlipbookComponent->SetFlipbook(TopAnimation);
+		TopFlipbookComponent->Play();
+	}
+	LegsFlipbookComponent->SetFlipbook(LegsAnimation);
+	LegsFlipbookComponent->Play();
+
+}

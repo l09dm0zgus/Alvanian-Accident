@@ -16,14 +16,13 @@
 #include "PaperFlipbookComponent.h"
 #include "AlbanianPlayer.generated.h"
 
-
 UENUM(BlueprintType)
 enum Weapon
 {
-	NO_WEAPON = 0    UMETA(DisplayName = "NO_WEAPON"),
-	FIRST_WEAPON	 UMETA(DisplayName = "FIRST_WEAPON"),
-	SECOND_WEAPON    UMETA(DisplayName = "SECOND_WEAPON"),
-	MEELE_WEAPON     UMETA(DisplayName = "MEELE_WEAPON"),
+	NO_WEAPON = 0 UMETA(DisplayName = "NO_WEAPON"),
+	FIRST_WEAPON UMETA(DisplayName = "FIRST_WEAPON"),
+	SECOND_WEAPON UMETA(DisplayName = "SECOND_WEAPON"),
+	MEELE_WEAPON UMETA(DisplayName = "MEELE_WEAPON"),
 };
 UCLASS()
 class CYBERNOSIS_API AAlbanianPlayer : public APawn
@@ -36,67 +35,69 @@ public:
 protected:
 	virtual void BeginPlay() override;
 
-public:	
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+public:
+	virtual void SetupPlayerInputComponent(class UInputComponent *PlayerInputComponent) override;
 	virtual void Tick(float DeltaTime) override;
+
 private:
 	Weapon CurrentWeapon;
 
 	UPROPERTY(EditAnywhere)
-	UAlbanianPlayerMovementComponent* MovementComponent;
+	UAlbanianPlayerMovementComponent *MovementComponent;
 
 	UPROPERTY(EditAnywhere)
-	UAlbanianPlayerCameraComponent* Camera;
+	UAlbanianPlayerCameraComponent *Camera;
 
 	UPROPERTY(EditAnywhere)
-	UPaperFlipbookComponent* TopFlipbookComponent;
+	UPaperFlipbookComponent *TopFlipbookComponent;
 
 	UPROPERTY(EditAnywhere)
-	UPaperFlipbookComponent* LegsFlipbookComponent;
-
-
-	UPROPERTY(EditAnywhere)
-	UPaperFlipbook* FistWeaponAnimation;
+	UPaperFlipbookComponent *LegsFlipbookComponent;
 
 	UPROPERTY(EditAnywhere)
-	UPaperFlipbook* SecondWeaponAnimation;
+	UPaperFlipbook *FistWeaponAnimation;
 
 	UPROPERTY(EditAnywhere)
-	UPaperFlipbook* ThirdWeaponAnimation;
+	UPaperFlipbook *SecondWeaponAnimation;
 
 	UPROPERTY(EditAnywhere)
-	USpringArmComponent* SpringArm;
+	UPaperFlipbook *ThirdWeaponAnimation;
 
 	UPROPERTY(EditAnywhere)
-	UEyesLightComponent* EyesLightComponent;
+	USpringArmComponent *SpringArm;
 
 	UPROPERTY(EditAnywhere)
-	UHealthComponent* HealthComponent;
+	UEyesLightComponent *EyesLightComponent;
 
 	UPROPERTY(EditAnywhere)
-	UPaperFlipbook* TopWalkAnimation;
+	UHealthComponent *HealthComponent;
 
 	UPROPERTY(EditAnywhere)
-	UPaperFlipbook* LegsWalkAnimation;
+	UPaperFlipbook *TopWalkAnimation;
 
 	UPROPERTY(EditAnywhere)
-	UPaperFlipbook* TopIdleAnimation;
+	UPaperFlipbook *LegsWalkAnimation;
 
 	UPROPERTY(EditAnywhere)
-	UPaperFlipbook* LegsIdleAnimation;
+	UPaperFlipbook *TopIdleAnimation;
 
 	UPROPERTY(EditAnywhere)
-	UWeaponComponent* FirstWeaponComponent;
+	UPaperFlipbook *LegsIdleAnimation;
 
 	UPROPERTY(EditAnywhere)
-	UWeaponComponent* SecondWeaponFirstGunComponent;
-
-
-	UPROPERTY(EditAnywhere)
-	UWeaponComponent* SecondWeaponSecondGunComponent;
+	UPaperFlipbook *DeathAnimation;
 
 	UPROPERTY(EditAnywhere)
-	UCapsuleComponent* CapsuleComponent;
+	UWeaponComponent *FirstWeaponComponent;
+
+	UPROPERTY(EditAnywhere)
+	UWeaponComponent *SecondWeaponFirstGunComponent;
+
+	UPROPERTY(EditAnywhere)
+	UWeaponComponent *SecondWeaponSecondGunComponent;
+
+	UPROPERTY(EditAnywhere)
+	UCapsuleComponent *CapsuleComponent;
 
 	void MoveForward(float AxisValue);
 	void MoveRight(float AxisValue);
@@ -116,5 +117,6 @@ private:
 	void ChooseFistWeapon();
 	void ChooseSecondWeapon();
 	void ChooseThirdWeapon();
+	void Die();
+	void ChangeAnimation(UPaperFlipbook *LegsAnimation, UPaperFlipbook *TopAnimation, bool bIsLooping);
 };
-

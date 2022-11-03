@@ -44,12 +44,19 @@ float UHealthComponent::GetStartHealth()
 
 void UHealthComponent::DamageTaken(AActor* DamagedActor, float Damage, const UDamageType* DamegeType, AController* Instigator, AActor* DamageCauser)
 {
-	UE_LOG(LogTemp, Warning, TEXT("Actor Damaged"))
-	CurrentHealth -= Damage;
-	if (CurrentHealth <= 0.00)
+	if (CurrentHealth <= 0.0f)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Actor died"))
+		bIsDead = true;
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Actor Damaged"))
+		CurrentHealth -= Damage;
 	}
 }
-
+bool UHealthComponent::IsDead()
+{
+	return bIsDead;
+}
 

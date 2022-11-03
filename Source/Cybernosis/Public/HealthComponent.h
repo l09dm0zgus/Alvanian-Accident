@@ -17,18 +17,6 @@ public:
 
 protected:
 	virtual void BeginPlay() override;
-	UFUNCTION(BlueprintCallable, Category = "Health")
-	void SetCurrentHealth(float currentHealth);
-	UFUNCTION(BlueprintCallable, Category = "Health")
-	void IncreaseCurrentHealth(float Value);
-	UFUNCTION(BlueprintCallable, Category = "Health")
-	void DecreaseCurrentHealth(float Value);
-	UFUNCTION(BlueprintCallable, Category = "Health")
-	void SetStartHealth(float startHealth);
-	UFUNCTION(BlueprintPure, Category = "Health")
-	float GetCurrentHealth();
-	UFUNCTION(BlueprintPure, Category = "Health")
-	float GetStartHealth();
 	UFUNCTION()
 	void DamageTaken(AActor* DamagedActor, float Damage, const UDamageType* DamegeType, AController* Instigator, AActor* DamageCauser);
 private:
@@ -38,4 +26,19 @@ private:
 
 	UPROPERTY(EditAnywhere, Category = "Health")
 	float CurrentHealth = 100.0f;
+	bool bIsDead = false;
+public:
+	UFUNCTION(BlueprintPure, Category = "Health")
+	float GetCurrentHealth();
+	UFUNCTION(BlueprintPure, Category = "Health")
+	float GetStartHealth();
+		UFUNCTION(BlueprintCallable, Category = "Health")
+	void SetCurrentHealth(float Health);
+	UFUNCTION(BlueprintCallable, Category = "Health")
+	void IncreaseCurrentHealth(float Value);
+	UFUNCTION(BlueprintCallable, Category = "Health")
+	void DecreaseCurrentHealth(float Value);
+	UFUNCTION(BlueprintCallable, Category = "Health")
+	void SetStartHealth(float Health);
+	bool IsDead();
 };

@@ -40,7 +40,7 @@ void UAlbanianPlayerMovementComponent::Turn(float AxisValue)
         FRotator NewRotation = UKismetMathLibrary::FindLookAtRotation(ActorLocation, MouseLocation);
         UpdatedComponent->SetRelativeRotation(FRotator(0.0f, NewRotation.Yaw, 90.0f));
     }
-    UE_LOG(LogTemp,Warning,TEXT("ActotLocation : %s , MouseLocation : %s"),*ActorLocation.ToCompactString(),*MouseLocation.ToCompactString())
+   
     
 }
 
